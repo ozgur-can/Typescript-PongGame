@@ -194,17 +194,17 @@
   // game end alert
   function checkGameEnd() {
     let winner = undefined;
-    if (CONSTS.score1 === 5) {
+    if (CONSTS.score1 == 5) {
       winner = "Left";
     }
 
-    if (CONSTS.score2 === 5) {
+    if (CONSTS.score2 == 5) {
       winner = "Right";
     }
 
     if (winner) {
       const playAgain = confirm(
-        `${winner} wins. \n\nScore: Left: ${CONSTS.score1}, Right: ${CONSTS.score2}`
+        `${winner} wins.\n\nScore: Left: ${CONSTS.score1}, Right: ${CONSTS.score2}\n\nPlay again?`
       );
 
       if (playAgain) {
@@ -228,7 +228,7 @@
   // calculate random number
   function getRandom(min, max) {
     let random = Math.floor(Math.random() * (max - min + 1)) + min;
-    return random === 0 ? getRandom(min, max) : random;
+    return random == 0 ? getRandom(min, max) : random;
   }
 
   // update score
