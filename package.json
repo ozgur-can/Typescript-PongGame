@@ -1,0 +1,27 @@
+{
+  "name": "InsiderJSProject-PongGame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node esbuild.config.js -w",
+    "build": "node esbuild.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zgrcnltnk/InsiderJSProject-PongGame.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zgrcnltnk/InsiderJSProject-PongGame/issues"
+  },
+  "homepage": "https://github.com/zgrcnltnk/InsiderJSProject-PongGame#readme",
+  "devDependencies": {
+    "@types/jquery": "^3.5.10",
+    "esbuild": "^0.14.2",
+    "esbuild-serve": "^1.0.1"
+  }
+}
