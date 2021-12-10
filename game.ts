@@ -44,7 +44,7 @@
   };
 
   var CONSTS = {
-    gameSpeed: 20,
+    gameSpeed: 10,
     score1: 0,
     score2: 0,
     stick1Speed: 0,
@@ -76,20 +76,20 @@
     $(document).on("keydown", function (e) {
       // player 1 keydown events
       if (e.key == "w" || e.key == "W") {
-        CONSTS.stick1Speed = -66;
+        CONSTS.stick1Speed = -22;
       }
 
       if (e.key == "s" || e.key == "S") {
-        CONSTS.stick1Speed = 66;
+        CONSTS.stick1Speed = 22;
       }
 
       // player 2 keydown events
       if (e.key == "ArrowUp") {
-        CONSTS.stick2Speed = -66;
+        CONSTS.stick2Speed = -22;
       }
 
       if (e.key == "ArrowDown") {
-        CONSTS.stick2Speed = 66;
+        CONSTS.stick2Speed = 22;
       }
     });
 
@@ -115,7 +115,7 @@
       $("#stick-2").css("top", CSS.stick2.top);
 
       CSS.ball.top += CONSTS.ballTopSpeed;
-      CSS.ball.left = 110;
+      CSS.ball.left += CONSTS.ballLeftSpeed;
 
       if (
         CSS.ball.top <= 0 ||
@@ -126,32 +126,60 @@
 
       $("#pong-ball").css({ top: CSS.ball.top, left: CSS.ball.left });
 
+      // left check
       if (CSS.ball.left <= CSS.stick.width) {
-        (CSS.ball.top > CSS.stick1.top &&
-          CSS.ball.top < CSS.stick1.top + CSS.stick.height &&
-          (CONSTS.ballLeftSpeed = CONSTS.ballLeftSpeed * -1)) ||
+        // left loss, right win
+        if (
+          CSS.ball.top + CSS.ball.height < CSS.stick1.top ||
+          CSS.ball.top > CSS.stick1.top + CSS.stick.height
+        ) {
+          CONSTS.score2++;
           roll();
+        }
+
+        // left saves ball, game continues
+        if (
+          CSS.ball.top + CSS.ball.height / 2 > CSS.stick1.top &&
+          CSS.ball.top + CSS.ball.height / 2 < CSS.stick1.top + CSS.stick.height
+        ) {
+          CONSTS.ballLeftSpeed = CONSTS.ballLeftSpeed * -1;
+        }
       }
 
+      // right check
       if (CSS.ball.left >= CSS.arena.width - CSS.ball.width - CSS.stick.width) {
-        roll();
+        // right loss, left win
+        if (
+          CSS.ball.top + CSS.ball.height < CSS.stick2.top ||
+          CSS.ball.top > CSS.stick2.top + CSS.stick.height
+        ) {
+          CONSTS.score1++;
+          roll();
+        }
+
+        // right saves ball, game continues
+        if (
+          CSS.ball.top + CSS.ball.height / 2 > CSS.stick2.top &&
+          CSS.ball.top + CSS.ball.height / 2 < CSS.stick2.top + CSS.stick.height
+        ) {
+          CONSTS.ballLeftSpeed = CONSTS.ballLeftSpeed * -1;
+        }
       }
     }, CONSTS.gameSpeed);
   }
 
   function roll() {
-    CSS.ball.top = 250;
-    CSS.ball.left = 350;
+    CSS.ball.top = CSS.arena.height / 2 - CSS.ball.height / 2;
+    CSS.ball.left = CSS.arena.width / 2 - CSS.ball.width / 2;
 
-    var side = -1;
-
-    if (Math.random() < 0.5) {
-      side = 1;
-    }
-
-    CONSTS.ballTopSpeed = Math.random() * -2 - 3;
-    CONSTS.ballLeftSpeed = side * (Math.random() * 2 + 3);
+    CONSTS.ballTopSpeed = getRandom(-1, -5);
+    CONSTS.ballLeftSpeed = getRandom(-10, 10);
   }
+
+  const getRandom = (min, max) => {
+    let random = Math.floor(Math.random() * (max - min + 1)) + min;
+    return random === 0 ? getRandom(min, max) : random;
+  };
 
   start();
 })();
