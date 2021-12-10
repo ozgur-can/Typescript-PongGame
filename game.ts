@@ -41,9 +41,15 @@
       right: 0,
       top: 150,
     },
+    scoreboard: {
+      textAlign: "center",
+      fontSize: "2.5em",
+      paddingTop: "1rem",
+      fontFamily: "Helvetica, Arial, sans-serif",
+    },
   };
 
-  var CONSTS = {
+  var CONSTS: any = {
     gameSpeed: 10,
     score1: 0,
     score2: 0,
@@ -54,6 +60,12 @@
   };
 
   function start() {
+    // open if save game exist
+    let saveGame = loadSaveGame();
+    if (saveGame) {
+      CONSTS = saveGame;
+    }
+
     draw();
     setEvents();
     roll();
@@ -61,6 +73,13 @@
   }
 
   function draw() {
+    $("<div/>", { id: "score-board" }).css(CSS.scoreboard).appendTo("body");
+    $("<span/>", { id: "left" })
+      .text(`left: ${CONSTS.score1} `)
+      .appendTo("#score-board");
+    $("<span/>", { id: "right" })
+      .text(`right: ${CONSTS.score2} `)
+      .appendTo("#score-board");
     $("<div/>", { id: "pong-game" }).css(CSS.arena).appendTo("body");
     $("<div/>", { id: "pong-line" }).css(CSS.line).appendTo("#pong-game");
     $("<div/>", { id: "pong-ball" }).css(CSS.ball).appendTo("#pong-game");
@@ -133,7 +152,8 @@
           CSS.ball.top + CSS.ball.height < CSS.stick1.top ||
           CSS.ball.top > CSS.stick1.top + CSS.stick.height
         ) {
-          CONSTS.score2++;
+          updateScore(++CONSTS.score2, "right");
+          saveGame();
           roll();
         }
 
@@ -153,7 +173,8 @@
           CSS.ball.top + CSS.ball.height < CSS.stick2.top ||
           CSS.ball.top > CSS.stick2.top + CSS.stick.height
         ) {
-          CONSTS.score1++;
+          updateScore(++CONSTS.score1, "left");
+          saveGame();
           roll();
         }
 
@@ -165,10 +186,38 @@
           CONSTS.ballLeftSpeed = CONSTS.ballLeftSpeed * -1;
         }
       }
+
+      checkGameEnd();
     }, CONSTS.gameSpeed);
   }
 
+  // game end alert
+  function checkGameEnd() {
+    let winner = undefined;
+    if (CONSTS.score1 === 5) {
+      winner = "Left";
+    }
+
+    if (CONSTS.score2 === 5) {
+      winner = "Right";
+    }
+
+    if (winner) {
+      const playAgain = confirm(
+        `${winner} wins. \n\nScore: Left: ${CONSTS.score1}, Right: ${CONSTS.score2}`
+      );
+
+      if (playAgain) {
+        // start new game
+        newGame();
+        // refresh page
+        window.location.reload();
+      }
+    }
+  }
+
   function roll() {
+    // center new ball
     CSS.ball.top = CSS.arena.height / 2 - CSS.ball.height / 2;
     CSS.ball.left = CSS.arena.width / 2 - CSS.ball.width / 2;
 
@@ -176,10 +225,45 @@
     CONSTS.ballLeftSpeed = getRandom(-10, 10);
   }
 
-  const getRandom = (min, max) => {
+  // calculate random number
+  function getRandom(min, max) {
     let random = Math.floor(Math.random() * (max - min + 1)) + min;
     return random === 0 ? getRandom(min, max) : random;
-  };
+  }
+
+  // update score
+  function updateScore(score, id) {
+    $(`#${id}`).text(`${id}: ${score} `);
+  }
+
+  // save to storage
+  function saveGame() {
+    localStorage.setItem("savegame", JSON.stringify(CONSTS));
+  }
+
+  // get data from storage
+  function loadSaveGame() {
+    return JSON.parse(localStorage.getItem("savegame"));
+  }
+
+  // clear storage
+  function deleteSaveGame() {
+    localStorage.clear();
+  }
+
+  // clear variables & storage
+  function newGame() {
+    CONSTS = {
+      gameSpeed: 10,
+      score1: 0,
+      score2: 0,
+      stick1Speed: 0,
+      stick2Speed: 0,
+      ballTopSpeed: 0,
+      ballLeftSpeed: 0,
+    };
+    deleteSaveGame();
+  }
 
   start();
 })();
