@@ -1,3 +1,5 @@
+import swal from "sweetalert";
+
 (function () {
   var CSS = {
     arena: {
@@ -57,29 +59,53 @@
     stick2Speed: 0,
     ballTopSpeed: 0,
     ballLeftSpeed: 0,
+    gameTypeSelected: false,
   };
 
-  function start() {
-    // open if save game exist
-    let saveGame = loadSaveGame();
-    if (saveGame) {
-      CONSTS = saveGame;
-    }
+  let observer: MutationObserver;
+  let interval: number;
 
+  function start() {
     draw();
     setEvents();
     roll();
-    loop();
+
+    selectGameType().then((gameType) => {
+      loop();
+      if (gameType == "LOAD_SAVE_GAME") {
+        // do nothing
+      } else if (gameType == "CPU_VS_CPU") {
+        // left and right sticks observe pong ball
+        observer = playWithCpu("pong-ball", 2);
+      } else if (gameType == "CPU_VS_YOU") {
+        // only right stick observes pong ball
+        observer = playWithCpu("pong-ball", 1);
+      } else if (gameType == "YOU_VS_YOU") {
+        // disconnect observer when cpu doesn't exist
+        observer.disconnect();
+      }
+    });
   }
 
-  function draw() {
-    $("<div/>", { id: "score-board" }).css(CSS.scoreboard).appendTo("body");
+  // add score board
+  function drawScoreBoard() {
     $("<span/>", { id: "left" })
       .text(`left: ${CONSTS.score1} `)
       .appendTo("#score-board");
     $("<span/>", { id: "right" })
       .text(`right: ${CONSTS.score2} `)
       .appendTo("#score-board");
+  }
+
+  // clear score board before load save game
+  function clearScoreBoard() {
+    $("#left").text(`left: ${CONSTS.score1} `);
+    $("#right").text(`right: ${CONSTS.score2}`);
+  }
+
+  function draw() {
+    $("<div/>", { id: "score-board" }).css(CSS.scoreboard).appendTo("body");
+    drawScoreBoard();
     $("<div/>", { id: "pong-game" }).css(CSS.arena).appendTo("body");
     $("<div/>", { id: "pong-line" }).css(CSS.line).appendTo("#pong-game");
     $("<div/>", { id: "pong-ball" }).css(CSS.ball).appendTo("#pong-game");
@@ -127,7 +153,7 @@
 
   function loop() {
     //@ts-ignore
-    window.pongLoop = setInterval(function () {
+    interval = window.pongLoop = setInterval(function () {
       CSS.stick1.top += CONSTS.stick1Speed;
       CSS.stick2.top += CONSTS.stick2Speed;
       $("#stick-1").css("top", CSS.stick1.top);
@@ -194,25 +220,30 @@
   // game end alert
   function checkGameEnd() {
     let winner = undefined;
-    if (CONSTS.score1 == 5) {
+    if (CONSTS.score1 >= 5) {
       winner = "Left";
+      clearInterval(interval);
     }
 
-    if (CONSTS.score2 == 5) {
+    if (CONSTS.score2 >= 5) {
       winner = "Right";
+      clearInterval(interval);
     }
 
     if (winner) {
-      const playAgain = confirm(
-        `${winner} wins.\n\nScore: Left: ${CONSTS.score1}, Right: ${CONSTS.score2}\n\nPlay again?`
-      );
-
-      if (playAgain) {
-        // start new game
-        newGame();
-        // refresh page
-        window.location.reload();
-      }
+      swal(
+        `${winner} wins.\n\nScore: Left: ${CONSTS.score1}, Right: ${CONSTS.score2}\n\nPlay again?`,
+        {
+          buttons: [false, true],
+        }
+      ).then((playAgain) => {
+        if (playAgain) {
+          // start new game
+          newGame();
+          // refresh page
+          window.location.reload();
+        }
+      });
     }
   }
 
@@ -221,6 +252,7 @@
     CSS.ball.top = CSS.arena.height / 2 - CSS.ball.height / 2;
     CSS.ball.left = CSS.arena.width / 2 - CSS.ball.width / 2;
 
+    // randomize ball direction
     CONSTS.ballTopSpeed = getRandom(-1, -5);
     CONSTS.ballLeftSpeed = getRandom(-10, 10);
   }
@@ -251,7 +283,7 @@
     localStorage.clear();
   }
 
-  // clear variables & storage
+  // clear variables & storage & save game
   function newGame() {
     CONSTS = {
       gameSpeed: 10,
@@ -261,8 +293,91 @@
       stick2Speed: 0,
       ballTopSpeed: 0,
       ballLeftSpeed: 0,
+      turn: undefined,
+      gameTypeSelected: false,
     };
     deleteSaveGame();
+  }
+
+  // simple fake ai pong sticks
+  function playWithCpu(id: string, cpuCount: number) {
+    //@ts-ignore
+    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+    var observer = new MutationObserver(function (mutations, observer) {
+      // 2 cpu
+      if (cpuCount == 2) {
+        if (CSS.ball.left - CSS.ball.width / 2 < CSS.arena.width / 2) {
+          CSS.stick1.top = CSS.ball.top - CSS.stick.height / 2;
+        } else {
+          CSS.stick2.top = CSS.ball.top - CSS.stick.height / 2;
+        }
+      }
+      // 1 cpu -> right stick
+      else if (cpuCount == 1) {
+        CSS.stick2.top = CSS.ball.top - CSS.stick.height / 2;
+      }
+    });
+
+    // detect dom changes in pong ball
+    observer.observe(document.getElementById(id), {
+      attributes: true,
+    });
+
+    return observer;
+  }
+
+  // game type selection
+  function selectGameType() {
+    return new Promise<string>((resolve, reject) => {
+      try {
+        swal("Select Game Type", {
+          buttons: {
+            youVsYou: {
+              text: "You vs You",
+              value: "YOU_VS_YOU",
+            },
+            cpuVsYou: {
+              text: "Cpu vs You",
+              value: "CPU_VS_YOU",
+            },
+            cpuVsCpu: {
+              text: "Cpu vs Cpu",
+              value: "CPU_VS_CPU",
+            },
+            loadSaveGame: {
+              text: "Load save game if exist",
+              value: "LOAD_SAVE_GAME",
+            },
+          },
+        }).then((value) => {
+          if (value == "LOAD_SAVE_GAME") {
+            // check save game
+            let saveGame = loadSaveGame();
+
+            if (saveGame) {
+              swal("Save game found");
+              // get save game variables
+              CONSTS = saveGame;
+              // clear score
+              clearScoreBoard();
+              // return save game type like with cpu without cpu
+              resolve(CONSTS.gameTypeSelected);
+            } else {
+              swal("Save game cannot found");
+              // return 'LOAD_SAVE_GAME'
+              resolve(value);
+            }
+          } else {
+            // store game type
+            CONSTS.gameTypeSelected = value;
+            resolve(value);
+          }
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   start();

@@ -20,8 +20,8 @@ We are going to develop the classic Atari game “Pong”.
 * Game ends when there is no ball.
 
 ### Extra Challenges ###
-* Make a cpu player
-* Make 2 cpu player play each other
+* Make a cpu player [+]
+* Make 2 cpu player play each other [+]
 * When pressed space add 1 more ball. (can  be played by multiple balls at the same time)
 * Make chrome extension.
 * Give ball trail effect.

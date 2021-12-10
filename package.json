@@ -23,5 +23,8 @@
     "@types/jquery": "^3.5.10",
     "esbuild": "^0.14.2",
     "esbuild-serve": "^1.0.1"
+  },
+  "dependencies": {
+    "sweetalert": "^2.1.2"
   }
 }
