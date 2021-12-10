@@ -70,8 +70,7 @@ import swal from "sweetalert";
     setEvents();
     roll();
 
-    selectGameType().then((gameType) => {
-      loop();
+    selectGameType(loop).then((gameType) => {
       if (gameType == "LOAD_SAVE_GAME") {
         // do nothing
       } else if (gameType == "CPU_VS_CPU") {
@@ -82,7 +81,7 @@ import swal from "sweetalert";
         observer = playWithCpu("pong-ball", 1);
       } else if (gameType == "YOU_VS_YOU") {
         // disconnect observer when cpu doesn't exist
-        observer.disconnect();
+        if (observer) observer.disconnect();
       }
     });
   }
@@ -328,7 +327,7 @@ import swal from "sweetalert";
   }
 
   // game type selection
-  function selectGameType() {
+  function selectGameType(loopCb) {
     return new Promise<string>((resolve, reject) => {
       try {
         swal("Select Game Type", {
@@ -361,6 +360,8 @@ import swal from "sweetalert";
               CONSTS = saveGame;
               // clear score
               clearScoreBoard();
+              // start loop
+              loopCb();
               // return save game type like with cpu without cpu
               resolve(CONSTS.gameTypeSelected);
             } else {
@@ -371,6 +372,8 @@ import swal from "sweetalert";
           } else {
             // store game type
             CONSTS.gameTypeSelected = value;
+            // start loop
+            loopCb();
             resolve(value);
           }
         });
