@@ -7,9 +7,9 @@ https://www.youtube.com/watch?v=fiShX2pTz9A
 We are going to develop the classic Atari game “Pong”.
 
 ### Rules ###
-* 2 sides will play the game
-* Every side will have a vertical saver (stick or whatever :) width of 12px height 85px
-* There will be a 15px x 15px square ball which has a constant speed to a direction.
+* 2 sides will play the game [+]
+* Every side will have a vertical saver (stick or whatever :) width of 12px height 85px [+]
+* There will be a 15px x 15px square ball which has a constant speed to a direction. [+]
 * When ball hit saver or Top of the screen or  bottom of the screen the ball will be reflected like a mirror. For ex if ball hits with 30’ it will leave with 150’ (+ - 10').
 * If ball reaches left or right side the ball disappears and opponent gets point.
 * The ball creates in center and goes to a random direction between (30’ 150’)

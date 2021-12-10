@@ -74,14 +74,34 @@
 
   function setEvents() {
     $(document).on("keydown", function (e) {
-      if (e.keyCode == 87) {
+      // player 1 keydown events
+      if (e.key == "w" || e.key == "W") {
         CONSTS.stick1Speed = -66;
+      }
+
+      if (e.key == "s" || e.key == "S") {
+        CONSTS.stick1Speed = 66;
+      }
+
+      // player 2 keydown events
+      if (e.key == "ArrowUp") {
+        CONSTS.stick2Speed = -66;
+      }
+
+      if (e.key == "ArrowDown") {
+        CONSTS.stick2Speed = 66;
       }
     });
 
     $(document).on("keyup", function (e) {
-      if (e.keyCode == 87) {
+      // player 1 keyup event
+      if (e.key == "w" || e.key == "W" || e.key == "s" || e.key == "S") {
         CONSTS.stick1Speed = 0;
+      }
+
+      // player 2 keyup event
+      if (e.key == "ArrowUp" || e.key == "ArrowDown") {
+        CONSTS.stick2Speed = 0;
       }
     });
   }
@@ -90,6 +110,7 @@
     //@ts-ignore
     window.pongLoop = setInterval(function () {
       CSS.stick1.top += CONSTS.stick1Speed;
+      CSS.stick2.top += CONSTS.stick2Speed;
       $("#stick-1").css("top", CSS.stick1.top);
       $("#stick-2").css("top", CSS.stick2.top);
 
