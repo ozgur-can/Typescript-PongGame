@@ -292,7 +292,6 @@ import swal from "sweetalert";
       stick2Speed: 0,
       ballTopSpeed: 0,
       ballLeftSpeed: 0,
-      turn: undefined,
       gameTypeSelected: false,
     };
     deleteSaveGame();
