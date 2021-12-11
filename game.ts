@@ -344,7 +344,7 @@ import swal from "sweetalert";
               value: "CPU_VS_CPU",
             },
             loadSaveGame: {
-              text: "Load save game if exist",
+              text: "Load save game",
               value: "LOAD_SAVE_GAME",
             },
           },
@@ -354,7 +354,7 @@ import swal from "sweetalert";
             let saveGame = loadSaveGame();
 
             if (saveGame) {
-              swal("Save game found");
+              swal("Save game found", "Game started", "success");
               // get save game variables
               CONSTS = saveGame;
               // clear score
@@ -364,7 +364,7 @@ import swal from "sweetalert";
               // return save game type like with cpu without cpu
               resolve(CONSTS.gameTypeSelected);
             } else {
-              swal("Save game cannot found");
+              swal("Save game not found", "Refresh the page", "warning");
               // return 'LOAD_SAVE_GAME'
               resolve(value);
             }
