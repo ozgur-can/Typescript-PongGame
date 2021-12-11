@@ -76,7 +76,7 @@ import swal from "sweetalert";
       } else if (gameType == "CPU_VS_CPU") {
         // left and right sticks observe pong ball
         observer = playWithCpu("pong-ball", 2);
-      } else if (gameType == "CPU_VS_YOU") {
+      } else if (gameType == "YOU_VS_CPU") {
         // only right stick observes pong ball
         observer = playWithCpu("pong-ball", 1);
       } else if (gameType == "YOU_VS_YOU") {
@@ -231,10 +231,7 @@ import swal from "sweetalert";
 
     if (winner) {
       swal(
-        `${winner} wins.\n\nScore: Left: ${CONSTS.score1}, Right: ${CONSTS.score2}\n\nPlay again?`,
-        {
-          buttons: [false, true],
-        }
+        `${winner} wins.\n\nScore: Left: ${CONSTS.score1}, Right: ${CONSTS.score2}\n\nPlay again?`
       ).then((playAgain) => {
         if (playAgain) {
           // start new game
@@ -329,18 +326,18 @@ import swal from "sweetalert";
   function selectGameType(loopCb) {
     return new Promise<string>((resolve, reject) => {
       try {
-        swal("Select Game Type", {
+        swal("Select Game Type", "", {
           buttons: {
             youVsYou: {
-              text: "You vs You",
+              text: "You(L) vs You(R)",
               value: "YOU_VS_YOU",
             },
             cpuVsYou: {
-              text: "Cpu vs You",
-              value: "CPU_VS_YOU",
+              text: "You(L) vs Cpu(R)",
+              value: "YOU_VS_CPU",
             },
             cpuVsCpu: {
-              text: "Cpu vs Cpu",
+              text: "Cpu(L) vs Cpu(R)",
               value: "CPU_VS_CPU",
             },
             loadSaveGame: {
@@ -348,6 +345,8 @@ import swal from "sweetalert";
               value: "LOAD_SAVE_GAME",
             },
           },
+          closeOnClickOutside: false,
+          closeOnEsc: false,
         }).then((value) => {
           if (value == "LOAD_SAVE_GAME") {
             // check save game
