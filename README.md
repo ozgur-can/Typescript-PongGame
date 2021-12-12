@@ -29,8 +29,3 @@
 * When pressed space add 1 more ball. (can  be played by multiple balls at the same time) [-]
 * Make chrome extension. [-]
 * Give ball trail effect. [-]
-* Save the game when pressed p and on http://corporate.lcwaikiki.com/hakkimizda page we can contuniue from where we saved after we paste your code in console [-]
-
-### Please take the following into consideration: ###
-* The project will be tested on https://www.lcwaikiki.com/tr-TR/TR, so please develop it accordingly. (It can be an extension or run by pasting it in console).
-* Please upload all of the files on https://wetransfer.com/ and share the url with us via e-mail.
