@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zgrcnltnk/InsiderJSProject-PongGame.git"
+    "url": "git+https://github.com/ozgurdevo/InsiderJSProject-PongGame.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zgrcnltnk/InsiderJSProject-PongGame/issues"
+    "url": "https://github.com/ozgurdevo/InsiderJSProject-PongGame/issues"
   },
-  "homepage": "https://github.com/zgrcnltnk/InsiderJSProject-PongGame#readme",
+  "homepage": "https://github.com/ozgurdevo/InsiderJSProject-PongGame#readme",
   "devDependencies": {
     "@types/jquery": "^3.5.10",
     "esbuild": "^0.14.2",
