@@ -1,5 +1,5 @@
 {
-  "name": "InsiderJSProject-PongGame",
+  "name": "Typescript-PongGame",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ozgurdevo/InsiderJSProject-PongGame.git"
+    "url": "git+https://github.com/ozgurdevo/Typescript-PongGame.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ozgurdevo/InsiderJSProject-PongGame/issues"
+    "url": "https://github.com/ozgurdevo/Typescript-PongGame/issues"
   },
-  "homepage": "https://github.com/ozgurdevo/InsiderJSProject-PongGame#readme",
+  "homepage": "https://github.com/ozgurdevo/Typescript-PongGame#readme",
   "devDependencies": {
     "@types/jquery": "^3.5.10",
     "esbuild": "^0.14.2",
