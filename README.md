@@ -1,4 +1,4 @@
-<h2 align="center">Typescipt Pong Game</h2>
+<h2 align="center">Typescript Pong Game</h2>
 
 :rocket:[Live Demo](https://ozgurdevo.github.io/Typescript-PongGame/ "Live Demo")
 
