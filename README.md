@@ -11,8 +11,8 @@
 - **open http://localhost:3000**
 
 ### Game Options ###
-* Player vs CPU
 * Player vs Player
+* Player vs CPU
 * CPU vs CPU
 
 ### Controllers ###
