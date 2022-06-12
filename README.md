@@ -1,8 +1,8 @@
-## INSDR Pong Game - Özgür Can Altınok
+<h2 align="center">Pong Game</h2>
 
-:rocket:[Live Demo](https://ozgurdevo.github.io/InsiderJSProject-PongGame/ "Live Demo")
+:rocket:[Live Demo](https://ozgurdevo.github.io/Typescript-PongGame/ "Live Demo")
 
-### Code run steps! ###
+### Code Run Steps! ###
 
 -  **npm i / yarn**
 
@@ -10,22 +10,17 @@
 
 - **open http://localhost:3000**
 
-### Rules ###
-* 2 sides will play the game [+]
-* Every side will have a vertical saver (stick or whatever :) width of 12px height 85px [+]
-* There will be a 15px x 15px square ball which has a constant speed to a direction. [+]
-* When ball hit saver or Top of the screen or  bottom of the screen the ball will be reflected like a mirror. For ex if ball hits with 30’ it will leave with 150’ (+ - 10'). [+]
-* If ball reaches left or right side the ball disappears and opponent gets point. [+]
-* The ball creates in center and goes to a random direction between (30’ 150’) [+]
-* Make a scoreboard. [+]
-* 5 point wins. [+]
-* Save the game into local storage and resume on another page. [+]
-* Use W up S down for left player up arrow and down arrow for right player [+]
-* Game ends when there is no ball. [+]
+### Game Options ###
+* Player vs C
+* player vs player
+* cpu vs cpu
 
-### Extra Challenges ###
-* Make a cpu player [+]
-* Make 2 cpu player play each other [+]
-* When pressed space add 1 more ball. (can  be played by multiple balls at the same time) [-]
-* Make chrome extension. [-]
-* Give ball trail effect. [-]
+### Controllers ###
+* Player Left: W (up), S (down) 
+* player Right: ↑ (up), ↓ (down)
+
+### Used Tools ###
+* Typescript
+* jQuery
+* sweetalert
+* esbuild
