@@ -11,16 +11,16 @@
 - **open http://localhost:3000**
 
 ### Game Options ###
-* Player vs C
-* player vs player
-* cpu vs cpu
+* Player vs CPU
+* Player vs Player
+* CPU vs CPU
 
 ### Controllers ###
 * Player Left: W (up), S (down) 
-* player Right: ↑ (up), ↓ (down)
+* Player Right: ↑ (up), ↓ (down)
 
 ### Used Tools ###
 * Typescript
-* jQuery
-* sweetalert
-* esbuild
+* JQuery
+* Sweetalert
+* Esbuild
