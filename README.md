@@ -1,6 +1,6 @@
 <h2 align="center">Typescript Pong Game</h2>
 
-:rocket:[Live Demo](https://ozgurdevo.github.io/Typescript-PongGame/ "Live Demo")
+:rocket:[Live Demo](https://ozgur-can.github.io/Typescript-PongGame/ "Live Demo")
 
 ### Code Run Steps! ###
 
